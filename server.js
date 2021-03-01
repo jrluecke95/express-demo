@@ -5,6 +5,7 @@
 
 const http = require('http');
 const express = require('express');
+const es6Renderer = require('express-es6-template-engine');
 // npm install express
 const db = require('./db');
 
@@ -13,26 +14,25 @@ const port = 3000;
 
 const app = express();
 
+app.engine('html', es6Renderer); // register html template engine
+app.set('views', 'templates'); // look for templates in templates folder
+app.set('view engine', 'html'); // use html engine for view rendering
+
 const server = http.createServer(app);
 
 app.get('/', (req, res) => {
-    res.send('poop dicks')
+    res.render('home', {
+        locals: {
+            title: 'Home page Here'
+        },
+        partials: {
+            head: '/partials/head'
+        }
+    }); // looks in templates folder and finds home
 })
 
 app.get('/about', (req, res) => {
-    res.send('about poop dicks')
-})
-
-app.get('/cats', (req, res) => {
-    res.send('Meow')
-})
-
-app.get('/dogs', (req, res) => {
-    res.send('dogs')
-})
-
-app.get('/cats_and_dogs', (req, res) => {
-    res.send('cats and dogs')
+    res.render('about')
 })
 
 app.get('/hello/:name', (req, res) => {
@@ -46,12 +46,24 @@ app.get('/greet/:name', (req, res) => {
 })
 
 app.get('/friends', (req, res) => {
-    let html = '';
-    db.forEach(friend => {
-        html += `<li>${friend.name}</li>`
-    })
+    res.render('friends', {
+        locals: {
+            title: 'friends page',
+            friends: db
+        },
+        partials: {
+            head: '/partials/head'
+        }
+    }); 
+    
+    //uses html template now
 
-    res.send(html)
+        // let html = '';
+    // db.forEach(friend => {
+    //     html += `<li>${friend.name}</li>`
+    // })
+
+    // res.send(html) //used to render html variable above
 })
 
 app.get('/friends/:handle', (req, res) => {
@@ -64,14 +76,22 @@ app.get('/friends/:handle', (req, res) => {
     })
 
     if (foundFriend) {
-        let html = `<h1>${foundFriend.name}</h1>`;
-        html += `<h2>${foundFriend.skill}</h2>`
-        res.send(html);
+        // let html = `<h1>${foundFriend.name}</h1>`;
+        // html += `<h2>${foundFriend.skill}</h2>`
+        // res.send(html);
+        res.render('friendSingle', {
+            locals: {
+                friend: foundFriend
+            },
+            partials: {
+                head: '/partials/head'
+            }
+        });
+
     } else {
         res.status(404);
         res.send('could not find user with taht handle');
     }
-    
 })
 
 app.get('*', (req, res) => {

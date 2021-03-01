@@ -2,22 +2,26 @@ const friends = [
     {
         name: 'Steve',
         handle: '@steve',
-        skill: 'punching'
+        skill: 'punching',
+        image: 'https://source.unsplash.com/fhrGa2KhFEY/900x600'
     }, 
     {
         name: 'Josh',
         handle: '@josh',
-        skill: 'kicking'
+        skill: 'kicking',
+        image: 'https://source.unsplash.com/fhrGa2KhFEY/900x600'
     }, 
     {
         name: 'Brad',
         handle: '@bard',
-        skill: 'jumping'
+        skill: 'jumping',
+        image: 'https://source.unsplash.com/fhrGa2KhFEY/900x600'
     }, 
     {
         name: 'Andre',
         handle: '@andre',
-        skill: 'running'
+        skill: 'running',
+        image: 'https://source.unsplash.com/fhrGa2KhFEY/900x600'
     }
 ]
 
